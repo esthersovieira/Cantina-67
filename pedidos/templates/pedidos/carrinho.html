@@ -1,0 +1,596 @@
+{% extends 'base.html' %}
+
+{% block title %}Meu Carrinho - Cantina Digital{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* FUNDO */
+
+    .cart-wrapper {
+
+        position: relative;
+
+        padding: 35px;
+
+        border-radius: 34px;
+
+        background:
+            radial-gradient(circle at top left,
+                rgba(96,165,250,0.16),
+                transparent 28%),
+
+            radial-gradient(circle at bottom right,
+                rgba(250,204,21,0.14),
+                transparent 28%),
+
+            linear-gradient(
+                135deg,
+                #f8fbff 0%,
+                #f5f3ff 55%,
+                #fffdf5 100%
+            );
+
+        box-shadow:
+            0 20px 60px rgba(37,99,235,0.08);
+
+        overflow: hidden;
+    }
+
+    /* HEADER */
+
+    .cart-title {
+
+        font-family: 'Fredoka', sans-serif;
+
+        font-size: 2.7rem;
+        font-weight: 700;
+
+        background:
+            linear-gradient(
+                90deg,
+                #2563eb,
+                #7c3aed,
+                #facc15
+            );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .back-btn {
+
+        border: none;
+
+        padding: 12px 22px;
+
+        border-radius: 16px;
+
+        color: white;
+
+        font-weight: 600;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        transition: 0.3s ease;
+
+        box-shadow:
+            0 10px 25px rgba(124,58,237,0.18);
+    }
+
+    .back-btn:hover {
+
+        transform: translateY(-3px);
+
+        box-shadow:
+            0 20px 35px rgba(124,58,237,0.28);
+
+        color: white;
+    }
+
+    /* CARD */
+
+    .cart-card {
+
+        border: none;
+
+        border-radius: 30px;
+
+        overflow: hidden;
+
+        background: rgba(255,255,255,0.78);
+
+        backdrop-filter: blur(16px);
+
+        box-shadow:
+            0 20px 50px rgba(0,0,0,0.06);
+    }
+
+    /* TABELA */
+
+    .cart-table {
+        margin: 0;
+    }
+
+    .cart-table thead {
+
+        background:
+            linear-gradient(
+                90deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        color: white;
+    }
+
+    .cart-table th {
+
+        border: none;
+
+        padding: 22px;
+
+        font-weight: 600;
+
+        font-size: 0.95rem;
+    }
+
+    .cart-table td {
+
+        padding: 22px;
+
+        vertical-align: middle;
+
+        border-color: rgba(0,0,0,0.04);
+    }
+
+    .cart-table tbody tr {
+
+        transition: 0.25s ease;
+    }
+
+    .cart-table tbody tr:hover {
+
+        background:
+            rgba(124,58,237,0.03);
+
+        transform: scale(1.01);
+    }
+
+    /* PRODUTO */
+
+    .product-name {
+
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    /* QUANTIDADE */
+
+    .quantity-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 42px;
+        height: 42px;
+
+        border-radius: 14px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #dbeafe,
+                #ede9fe
+            );
+
+        color: #4c1d95;
+
+        font-weight: 700;
+    }
+
+    /* PREÇOS */
+
+    .price {
+
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .subtotal {
+
+        font-weight: 800;
+
+        background:
+            linear-gradient(
+                90deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* FOOTER */
+
+    .cart-footer {
+
+        background:
+            rgba(255,255,255,0.7);
+
+        backdrop-filter: blur(12px);
+
+        border-top:
+            1px solid rgba(0,0,0,0.04);
+
+        padding: 30px;
+    }
+
+    /* TOTAL */
+
+    .total-box {
+
+        display: inline-block;
+
+        padding: 18px 24px;
+
+        border-radius: 20px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(37,99,235,0.08),
+                rgba(124,58,237,0.08)
+            );
+    }
+
+    .total-price {
+
+        font-size: 2rem;
+        font-weight: 800;
+
+        background:
+            linear-gradient(
+                90deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* BOTÕES */
+
+    .btn-clean {
+
+        border: 2px solid #ef4444;
+
+        color: #ef4444;
+
+        border-radius: 16px;
+
+        padding: 12px 22px;
+
+        font-weight: 700;
+
+        transition: 0.3s ease;
+    }
+
+    .btn-clean:hover {
+
+        background: #ef4444;
+        color: white;
+
+        transform: translateY(-2px);
+    }
+
+    .btn-finish {
+
+        border: none;
+
+        padding: 14px 34px;
+
+        border-radius: 18px;
+
+        color: #111827;
+
+        font-weight: 700;
+
+        background:
+            linear-gradient(
+                135deg,
+                #facc15,
+                #fde047
+            );
+
+        box-shadow:
+            0 12px 25px rgba(250,204,21,0.25);
+
+        transition: 0.3s ease;
+    }
+
+    .btn-finish:hover {
+
+        transform:
+            translateY(-3px)
+            scale(1.02);
+
+        box-shadow:
+            0 20px 35px rgba(250,204,21,0.38);
+    }
+
+    /* EMPTY */
+
+    .empty-state {
+
+        padding: 70px 20px;
+
+        text-align: center;
+    }
+
+    .empty-icon {
+
+        font-size: 5rem;
+
+        background:
+            linear-gradient(
+                90deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .empty-btn {
+
+        margin-top: 20px;
+
+        border: none;
+
+        border-radius: 16px;
+
+        padding: 14px 28px;
+
+        color: white;
+
+        font-weight: 700;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        transition: 0.3s ease;
+    }
+
+    .empty-btn:hover {
+
+        transform: translateY(-3px);
+
+        color: white;
+    }
+
+    /* ANIMAÇÃO */
+
+    .fade-up {
+        animation: fadeUp 0.7s ease;
+    }
+
+    @keyframes fadeUp {
+
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+</style>
+
+<div class="container fade-up">
+
+    <div class="cart-wrapper">
+
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
+
+            <h2 class="cart-title mb-0">
+
+                <i class="bi bi-cart4"></i>
+                Meu Carrinho
+
+            </h2>
+
+            <a href="{% url 'novo_pedido' %}"
+               class="btn back-btn">
+
+                <i class="bi bi-arrow-left"></i>
+                Continuar Comprando
+
+            </a>
+
+        </div>
+
+        <!-- CARD -->
+        <div class="cart-card">
+
+            <div class="table-responsive">
+
+                <table class="table cart-table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Produto</th>
+
+                            <th class="text-center">
+                                Quantidade
+                            </th>
+
+                            <th class="text-end">
+                                Preço
+                            </th>
+
+                            <th class="text-end">
+                                Subtotal
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in itens %}
+
+                        <tr>
+
+                            <td class="product-name">
+                                {{ item.produto.nome }}
+                            </td>
+
+                            <td class="text-center">
+
+                                <span class="quantity-badge">
+
+                                    {{ item.quantidade }}
+
+                                </span>
+
+                            </td>
+
+                            <td class="text-end price">
+
+                                R$ {{ item.produto.preco|floatformat:2 }}
+
+                            </td>
+
+                            <td class="text-end subtotal">
+
+                                R$ {{ item.subtotal|floatformat:2 }}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="4">
+
+                                <div class="empty-state">
+
+                                    <div class="empty-icon">
+
+                                        <i class="bi bi-cart-x"></i>
+
+                                    </div>
+
+                                    <h4 class="mt-4 fw-bold">
+                                        Seu carrinho está vazio
+                                    </h4>
+
+                                    <p class="text-muted">
+                                        Escolha algo delicioso no cardápio 🍔
+                                    </p>
+
+                                    <a href="/"
+                                       class="btn empty-btn">
+
+                                        Ver Cardápio
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% if itens %}
+
+            <div class="cart-footer">
+
+                <div class="row align-items-center g-4">
+
+                    <!-- TOTAL -->
+                    <div class="col-md-6">
+
+                        <div class="total-box">
+
+                            <small class="text-muted d-block mb-1">
+                                Total do Pedido
+                            </small>
+
+                            <div class="total-price">
+
+                                R$ {{ total_geral|floatformat:2 }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- BOTÕES -->
+                    <div class="col-md-6 text-md-end">
+
+                        <a href="{% url 'limpar_carrinho' %}"
+                           class="btn btn-clean me-2">
+
+                            <i class="bi bi-trash"></i>
+                            Esvaziar
+
+                        </a>
+
+                        <a href="{% url 'finalizar_compra' %}"
+                           class="btn btn-finish">
+
+                            <i class="bi bi-check-circle"></i>
+                            Finalizar Compra
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

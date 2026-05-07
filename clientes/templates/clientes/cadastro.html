@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Cliente - Cantina Digital{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* FUNDO */
+
+    .register-wrapper {
+
+        position: relative;
+
+        padding: 40px;
+
+        border-radius: 36px;
+
+        background:
+            radial-gradient(circle at top left,
+                rgba(96,165,250,0.16),
+                transparent 30%),
+
+            radial-gradient(circle at bottom right,
+                rgba(250,204,21,0.15),
+                transparent 30%),
+
+            linear-gradient(
+                135deg,
+                #f8fbff 0%,
+                #f5f3ff 55%,
+                #fffdf5 100%
+            );
+
+        box-shadow:
+            0 20px 60px rgba(37,99,235,0.08);
+
+        overflow: hidden;
+    }
+
+    /* CARD */
+
+    .register-card {
+
+        border: none;
+
+        border-radius: 34px;
+
+        overflow: hidden;
+
+        background:
+            rgba(255,255,255,0.78);
+
+        backdrop-filter: blur(18px);
+
+        box-shadow:
+            0 25px 60px rgba(0,0,0,0.08);
+    }
+
+    /* HEADER */
+
+    .register-header {
+
+        position: relative;
+
+        padding: 32px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        overflow: hidden;
+    }
+
+    .register-header::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 250px;
+        height: 250px;
+
+        background:
+            radial-gradient(circle,
+                rgba(255,255,255,0.18),
+                transparent 70%);
+
+        top: -120px;
+        right: -100px;
+    }
+
+    .register-title {
+
+        position: relative;
+
+        z-index: 2;
+
+        font-family: 'Fredoka', sans-serif;
+
+        font-size: 2rem;
+        font-weight: 700;
+
+        color: white;
+    }
+
+    .register-subtitle {
+
+        position: relative;
+
+        z-index: 2;
+
+        color: rgba(255,255,255,0.8);
+
+        margin-top: 8px;
+    }
+
+    /* BODY */
+
+    .register-body {
+
+        padding: 40px;
+    }
+
+    /* LABELS */
+
+    .form-label {
+
+        font-weight: 700;
+
+        color: #334155;
+
+        margin-bottom: 10px;
+    }
+
+    /* INPUTS */
+
+    .form-control {
+
+        border: 2px solid transparent;
+
+        border-radius: 18px;
+
+        padding: 16px 18px;
+
+        background:
+            rgba(255,255,255,0.9);
+
+        box-shadow:
+            inset 0 2px 6px rgba(0,0,0,0.03);
+
+        transition: all 0.3s ease;
+
+        font-size: 0.96rem;
+    }
+
+    .form-control:focus {
+
+        border-color: #7c3aed;
+
+        box-shadow:
+            0 0 0 5px rgba(124,58,237,0.12);
+
+        transform: translateY(-1px);
+    }
+
+    /* TEXT */
+
+    .form-text {
+
+        color: #64748b;
+
+        margin-top: 8px;
+    }
+
+    /* BOTÃO */
+
+    .btn-register {
+
+        border: none;
+
+        padding: 16px;
+
+        border-radius: 18px;
+
+        font-weight: 700;
+
+        font-size: 1rem;
+
+        background:
+            linear-gradient(
+                135deg,
+                #facc15,
+                #fde047
+            );
+
+        color: #111827;
+
+        transition: all 0.3s ease;
+
+        box-shadow:
+            0 15px 30px rgba(250,204,21,0.28);
+    }
+
+    .btn-register:hover {
+
+        transform:
+            translateY(-3px)
+            scale(1.01);
+
+        box-shadow:
+            0 22px 38px rgba(250,204,21,0.38);
+    }
+
+    /* BOTÃO VOLTAR */
+
+    .btn-cancel {
+
+        border-radius: 18px;
+
+        padding: 14px;
+
+        border: 2px solid rgba(124,58,237,0.18);
+
+        color: #7c3aed;
+
+        font-weight: 700;
+
+        transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        color: white;
+
+        border-color: transparent;
+
+        transform: translateY(-2px);
+    }
+
+    /* ÍCONE */
+
+    .icon-circle {
+
+        width: 72px;
+        height: 72px;
+
+        border-radius: 24px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background:
+            rgba(255,255,255,0.14);
+
+        backdrop-filter: blur(12px);
+
+        margin-bottom: 18px;
+
+        font-size: 2rem;
+
+        color: white;
+
+        box-shadow:
+            0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    /* ANIMAÇÃO */
+
+    .fade-up {
+        animation: fadeUp 0.7s ease;
+    }
+
+    @keyframes fadeUp {
+
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+</style>
+
+<div class="container fade-up">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="register-wrapper">
+
+                <div class="register-card">
+
+                    <!-- HEADER -->
+                    <div class="register-header">
+
+                        <div class="icon-circle">
+
+                            <i class="bi bi-person-plus-fill"></i>
+
+                        </div>
+
+                        <h2 class="register-title">
+
+                            Novo Cadastro
+
+                        </h2>
+
+                        <p class="register-subtitle mb-0">
+
+                            Crie sua conta e peça seus salgados favoritos 🍔
+
+                        </p>
+
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="register-body">
+
+                        <form method="POST" id="formCadastro">
+
+                            {% csrf_token %}
+
+                            <!-- NOME -->
+                            <div class="mb-4">
+
+                                <label for="nome"
+                                       class="form-label">
+
+                                    Nome Completo
+
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="nome"
+                                       name="nome"
+                                       placeholder="Digite seu nome completo"
+                                       required>
+
+                            </div>
+
+                            <!-- CPF -->
+                            <div class="mb-4">
+
+                                <label for="cpf"
+                                       class="form-label">
+
+                                    CPF
+
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="cpf"
+                                       name="cpf"
+                                       placeholder="000.000.000-00"
+                                       required>
+
+                                <div class="form-text">
+
+                                    A formatação é automática.
+
+                                </div>
+
+                            </div>
+
+                            <!-- EMAIL -->
+                            <div class="mb-4">
+
+                                <label for="email"
+                                       class="form-label">
+
+                                    E-mail
+
+                                </label>
+
+                                <input type="email"
+                                       class="form-control"
+                                       id="email"
+                                       name="email"
+                                       placeholder="exemplo@email.com">
+
+                            </div>
+
+                            <!-- TELEFONE -->
+                            <div class="mb-4">
+
+                                <label for="telefone"
+                                       class="form-label">
+
+                                    Telefone / WhatsApp
+
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="telefone"
+                                       name="telefone"
+                                       placeholder="(00) 00000-0000">
+
+                            </div>
+
+                            <!-- BOTÕES -->
+                            <div class="d-grid gap-3 mt-5">
+
+                                <button type="submit"
+                                        class="btn btn-register">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Finalizar Cadastro
+
+                                </button>
+
+                                <a href="/"
+                                   class="btn btn-cancel">
+
+                                    Cancelar e Voltar
+
+                                </a>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- IMASK -->
+<script src="https://unpkg.com/imask"></script>
+
+<script>
+
+    // CPF
+
+    IMask(
+        document.getElementById('cpf'),
+        {
+            mask: '000.000.000-00'
+        }
+    );
+
+    // TELEFONE
+
+    IMask(
+        document.getElementById('telefone'),
+        {
+            mask: '(00) 00000-0000'
+        }
+    );
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Início - Cantina Digital{% endblock %}
+
+{% block content %}
+
+<style>
+    /* HERO */
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+        border-radius: 32px;
+        padding: 80px 40px;
+        background:
+            radial-gradient(circle at top left, rgba(96,165,250,0.35), transparent 30%),
+            radial-gradient(circle at bottom right, rgba(250,204,21,0.25), transparent 30%),
+            linear-gradient(135deg, #eef4ff 0%, #f5f3ff 45%, #fffbea 100%);
+        box-shadow: 0 20px 60px rgba(37, 99, 235, 0.12);
+    }
+
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: rgba(124, 58, 237, 0.08);
+        border-radius: 50%;
+        top: -120px;
+        right: -80px;
+        filter: blur(10px);
+    }
+
+    .hero-title {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 4rem;
+        font-weight: 700;
+        line-height: 1.1;
+        background: linear-gradient(90deg, #2563eb, #7c3aed, #facc15);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+        color: #64748b;
+        font-size: 1.15rem;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .hero-btn {
+        background: linear-gradient(90deg, #2563eb, #7c3aed);
+        border: none;
+        color: white;
+        font-weight: 600;
+        border-radius: 14px;
+        padding: 14px 28px;
+        transition: 0.3s ease;
+        box-shadow: 0 10px 25px rgba(124,58,237,0.25);
+    }
+
+    .hero-btn:hover {
+        transform: translateY(-3px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(124,58,237,0.35);
+    }
+
+    /* CAROUSEL */
+    .carousel-modern {
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    }
+
+    .carousel-item img {
+        height: 520px;
+        object-fit: cover;
+        filter: brightness(0.75);
+    }
+
+    .carousel-caption {
+        bottom: 60px;
+    }
+
+    .carousel-box {
+        display: inline-block;
+        padding: 30px;
+        border-radius: 24px;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .carousel-box h5 {
+        font-size: 2.2rem;
+        font-weight: bold;
+        font-family: 'Fredoka', sans-serif;
+    }
+
+    .price-highlight {
+        font-size: 2rem;
+        color: #facc15;
+        font-weight: bold;
+    }
+
+    .btn-cart {
+        background: linear-gradient(90deg, #facc15, #fde047);
+        border: none;
+        color: #111;
+        font-weight: bold;
+        border-radius: 14px;
+        padding: 12px 24px;
+        transition: 0.3s;
+    }
+
+    .btn-cart:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 35px rgba(250,204,21,0.4);
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 2.5rem;
+        background: linear-gradient(90deg, #2563eb, #7c3aed);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* PRODUTOS */
+    .produto-card {
+        border: none;
+        border-radius: 24px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.75);
+        backdrop-filter: blur(10px);
+        transition: all 0.35s ease;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .produto-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(37,99,235,0.15);
+    }
+
+    .produto-img {
+        height: 220px;
+        object-fit: cover;
+        transition: 0.4s ease;
+    }
+
+    .produto-card:hover .produto-img {
+        transform: scale(1.06);
+    }
+
+    .produto-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: linear-gradient(90deg, #2563eb, #7c3aed);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 2;
+    }
+
+    .produto-title {
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .produto-price {
+        color: #7c3aed;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .produto-btn {
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(90deg, #2563eb, #7c3aed);
+        color: white;
+        padding: 12px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .produto-btn:hover {
+        transform: scale(1.03);
+        box-shadow: 0 12px 25px rgba(124,58,237,0.25);
+    }
+
+    /* CTA */
+    .cta-box {
+        border-radius: 30px;
+        padding: 50px;
+        background:
+            linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08)),
+            #ffffff;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+    }
+
+    .cta-link {
+        color: #7c3aed;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .cta-link:hover {
+        color: #2563eb;
+    }
+
+    /* ANIMAÇÃO */
+    .fade-up {
+        animation: fadeUp 0.8s ease;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<!-- HERO -->
+<section class="hero-section text-center mb-5 fade-up">
+
+    <h1 class="hero-title mb-4">
+        A Cantina mais deliciosa da escola 🍔
+    </h1>
+
+    <p class="hero-subtitle mb-4">
+        Escolha seus salgados favoritos, monte seu pedido e aproveite uma experiência moderna e rápida.
+    </p>
+
+    <a href="#cardapio" class="hero-btn text-decoration-none">
+        <i class="bi bi-stars"></i> Explorar Cardápio
+    </a>
+
+</section>
+
+<!-- CAROUSEL -->
+<div id="carouselSalgados"
+     class="carousel slide carousel-modern mb-5 fade-up"
+     data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+
+        {% for salgado in salgados %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+
+            {% if salgado.imagem %}
+            <img src="{{ salgado.imagem.url }}"
+                 class="d-block w-100"
+                 alt="{{ salgado.nome }}">
+            {% endif %}
+
+            <div class="carousel-caption">
+
+                <div class="carousel-box">
+
+                    <h5>{{ salgado.nome }}</h5>
+
+                    <p class="price-highlight">
+                        R$ {{ salgado.preco|floatformat:2 }}
+                    </p>
+
+                    <a href="{% url 'adicionar_ao_carrinho' salgado.id %}"
+                       class="btn btn-cart">
+
+                        <i class="bi bi-cart-plus"></i>
+                        Adicionar ao Carrinho
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselSalgados"
+            data-bs-slide="prev">
+
+        <span class="carousel-control-prev-icon"></span>
+
+    </button>
+
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselSalgados"
+            data-bs-slide="next">
+
+        <span class="carousel-control-next-icon"></span>
+
+    </button>
+
+</div>
+
+<!-- CARDÁPIO -->
+<section id="cardapio" class="mb-5 fade-up">
+
+    <div class="text-center mb-5">
+
+        <h2 class="section-title">
+            Nosso Cardápio
+        </h2>
+
+        <p class="text-muted">
+            Escolha algo irresistível 😋
+        </p>
+
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for salgado in salgados %}
+        <div class="col">
+
+            <div class="produto-card h-100">
+
+                <span class="produto-badge">
+                    Popular
+                </span>
+
+                {% if salgado.imagem %}
+                <img src="{{ salgado.imagem.url }}"
+                     class="w-100 produto-img"
+                     alt="{{ salgado.nome }}">
+                {% endif %}
+
+                <div class="p-4 text-center">
+
+                    <h5 class="produto-title mb-2">
+                        {{ salgado.nome }}
+                    </h5>
+
+                    <p class="text-muted small">
+                        {{ salgado.descricao|truncatechars:60 }}
+                    </p>
+
+                    <div class="produto-price mb-3">
+                        R$ {{ salgado.preco|floatformat:2 }}
+                    </div>
+
+                    <a href="{% url 'adicionar_ao_carrinho' salgado.id %}"
+                       class="btn produto-btn w-100">
+
+                        <i class="bi bi-plus-lg"></i>
+                        Colocar no Carrinho
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<!-- CTA -->
+<div class="cta-box text-center fade-up">
+
+    <h3 class="fw-bold mb-3">
+        Atendimento personalizado 💜
+    </h3>
+
+    <p class="text-muted mb-3">
+        Atualize seus dados e tenha uma experiência ainda melhor na cantina.
+    </p>
+
+    <a href="/clientes/novo/" class="cta-link">
+        Atualizar Cadastro →
+    </a>
+
+</div>
+
+{% endblock %}
